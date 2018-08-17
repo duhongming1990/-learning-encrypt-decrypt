@@ -2,6 +2,7 @@ package com.zgl.util.secure.enums;
 
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * 密钥算法
  * @author ZGL
@@ -23,7 +24,6 @@ public enum EnumKeyAlgorithm {
 	
 	public static List<EnumKeyAlgorithm> getSymmetric(){
 		List<EnumKeyAlgorithm> keyAlgorithms = new ArrayList<EnumKeyAlgorithm>();
-		
 		keyAlgorithms.add(EnumKeyAlgorithm.DES);
 		keyAlgorithms.add(EnumKeyAlgorithm.DESede);
 		keyAlgorithms.add(EnumKeyAlgorithm.AES);

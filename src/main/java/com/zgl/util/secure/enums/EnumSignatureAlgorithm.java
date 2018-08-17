@@ -16,18 +16,20 @@ public enum EnumSignatureAlgorithm {
 	SHA224withDSA(EnumKeyAlgorithm.DSA),
 	SHA256withDSA(EnumKeyAlgorithm.DSA),
 	SHA384withDSA(EnumKeyAlgorithm.DSA),
-	SHA512withDSA(EnumKeyAlgorithm.DSA),
-	
-	NONEwithECDSA(EnumKeyAlgorithm.ECDSA),
-	SHA1withECDSA(EnumKeyAlgorithm.ECDSA),
-	SHA224withECDSA(EnumKeyAlgorithm.ECDSA),
-	SHA256withECDSA(EnumKeyAlgorithm.ECDSA),
-	SHA384withECDSA(EnumKeyAlgorithm.ECDSA),
-	SHA512withECDSA(EnumKeyAlgorithm.ECDSA),
-	RIPEMD160withECDSA(EnumKeyAlgorithm.ECDSA);
+	//TODO SHA512withDSA不好使:first coefficient is too large
+//	SHA512withDSA(EnumKeyAlgorithm.DSA),
+//
+//	NONEwithECDSA(EnumKeyAlgorithm.ECDSA),
+//	SHA1withECDSA(EnumKeyAlgorithm.ECDSA),
+//	SHA224withECDSA(EnumKeyAlgorithm.ECDSA),
+//	SHA256withECDSA(EnumKeyAlgorithm.ECDSA),
+//	SHA384withECDSA(EnumKeyAlgorithm.ECDSA),
+//	SHA512withECDSA(EnumKeyAlgorithm.ECDSA),
+//	RIPEMD160withECDSA(EnumKeyAlgorithm.ECDSA)
+	;
 	
 	private EnumKeyAlgorithm keyAlgorithm;
-	private EnumSignatureAlgorithm(EnumKeyAlgorithm keyAlgorithm){
+	EnumSignatureAlgorithm(EnumKeyAlgorithm keyAlgorithm){
 		this.keyAlgorithm = keyAlgorithm;
 	}
 	public EnumKeyAlgorithm getKeyAlgorithm() {

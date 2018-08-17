@@ -1,32 +1,21 @@
 package com.zgl.util.secure.util;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.InvalidKeyException;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.Security;
-import java.security.Signature;
-import java.security.SignatureException;
-import java.security.UnrecoverableKeyException;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-import java.util.Enumeration;
+import com.zgl.util.IOUtil;
+import com.zgl.util.NumberUtil;
+import com.zgl.util.secure.enums.EnumKeyStoreType;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-
-import com.zgl.util.IOUtil;
-import com.zgl.util.NumberUtil;
-import com.zgl.util.secure.enums.EnumKeyStoreType;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.*;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.util.Enumeration;
 
 /**
  * 密钥库工具
@@ -125,10 +114,10 @@ public class KeyStoreUtil {
 	 * @throws InvalidKeyException 
 	 * @throws Exception
 	 */
-	public byte[] encrptyByPublicKey(String alias, byte[] byteData) 
+	public byte[] encrptyByPublicKey(String alias, byte[] byteData)
 			throws KeyStoreException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
 		PublicKey publicKey = getPublicKey(alias);
-		return CipherUtil.encrpty(null, publicKey, byteData);
+		return CipherUtil.encrypt(null, publicKey, byteData);
 	}
 	
 	/**
@@ -146,10 +135,10 @@ public class KeyStoreUtil {
 	 * @throws InvalidKeyException 
 	 * @throws Exception
 	 */
-	public byte[] encrptyByPrivateKey(String alias,String keyPassword, byte[] byteData) 
+	public byte[] encrptyByPrivateKey(String alias,String keyPassword, byte[] byteData)
 			throws UnrecoverableKeyException, KeyStoreException, NoSuchAlgorithmException, InvalidKeyException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException{
 		PrivateKey privateKey = getPrivateKey(alias,keyPassword);
-		return CipherUtil.encrpty(null, privateKey, byteData);
+		return CipherUtil.encrypt(null, privateKey, byteData);
 	}
 	
 

@@ -1,10 +1,9 @@
 package com.zgl.util.secure.util;
 
-import java.io.UnsupportedEncodingException;
-
+import com.zgl.util.EncodingUtil;
 import org.bouncycastle.util.encoders.Base64;
 
-import com.zgl.util.EncodingUtil;
+import java.io.UnsupportedEncodingException;
 
 public class Base64Util {
 	public static byte[] encode(byte[] byteData){
@@ -42,7 +41,7 @@ public class Base64Util {
 	
 	
 	public static String encode(String data,String encoding) throws UnsupportedEncodingException{
-		return new String(encode(data.getBytes(encoding)),EncodingUtil.getEncoding(encoding));
+		return new String(encode(data.getBytes(encoding)), EncodingUtil.getEncoding(encoding));
 	}
 	
 	public static String decode(String data,String encoding) throws UnsupportedEncodingException{

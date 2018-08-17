@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="bin/jsencrypt.js"></script>
+</head>
+<body>
+    打开Console看吧！
+    <script type="text/javascript">
+
+        var rsa_enc_data = rsaEncrypt('我有一个消息');
+        console.log("RSA加密内容："+rsa_enc_data);
+        console.log("RSA解密内容："+rsaDecrypt(rsa_enc_data));
+
+        function rsaEncrypt(data) {
+            var key ="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC7rS78PJLTDLcHmF7bSUteQZB7joIyuCx3Z8T5A+KPbFQFPZmXMigDhM4vbzcfrUwcKq+c7X+wQPJ3Poi6VpCGnRbK8ts6+PIH8klS/UT/+LS9V+eEA0fBlD1MwQemJIYUhFbAvlGJ4IBubo9qjOaHJCPlBI93p3WMyp3N4GoONwIDAQAB";
+            var encrypt = new JSEncrypt(key);
+            encrypt.setPublicKey(key);
+            return encrypt.encrypt(data);
+        }
+
+        function rsaDecrypt(data) {
+            var key ="MIICeAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBALutLvw8ktMMtweYXttJS15BkHuOgjK4LHdnxPkD4o9sVAU9mZcyKAOEzi9vNx+tTBwqr5ztf7BA8nc+iLpWkIadFsry2zr48gfySVL9RP/4tL1X54QDR8GUPUzBB6YkhhSEVsC+UYnggG5uj2qM5ockI+UEj3endYzKnc3gag43AgMBAAECgYA427QDaRqWZCDDZU8/okn6KWTrefZKBXA7UK3lP18RUqF14P66RtDGmCKbTldl+mu3kNsZcP6hWFvc8o4b3gP0r5nlW+12Xp6qwg7Ayx7QnvujytnZKu3ijRQhYTXKa9EDbUnPQSMdvBmdnij+QwXGxCiQr90wXslkawNB/GfjIQJBAOKOC4Mi4NWhZptNTZE+4YQcdwM7d8z3PYqv9yGvgym9aPz6EfMX9R4RMBILIjSlNAuRtb+O+zJmfcLWr4Kr7YcCQQDUEZLq4YRjiXJpPCsL+PiQamPF64w/TPNzSF/NzBr3Brkj7/iLk/QANy+3oIbaJMFf7qIEFbf8nGuPyEq8qoXRAkEAjKorRbG7LYk3/wchOSR0uyU9U7lxqcZ85IZbCAREiP78l83gpTHj1FZRpXJaO5uzU9eVpClvmByAyx+m+5gqMwJBAIUpg9d5RGg8JltuLJmX/HyyUXQ2NBqLd1MsXvwa7dOvpRGr3aXHga+g95WWdxcDfWl/rrxh5uX4UpI2creFXAECQQDZVivHFIE1oU7ayXvICgNp72gmwZPWoKyY8coJ7lw200YYMRfP/ZaYDh1dSCsRAQW7RCyibyxNtikgHkwlvp6b";
+            var encrypt = new JSEncrypt(key);
+            encrypt.setPrivateKey(key);
+            return encrypt.decrypt(data);
+        }
+
+    </script>
+</body>
+</html>

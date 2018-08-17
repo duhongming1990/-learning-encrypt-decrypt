@@ -1,29 +1,25 @@
 package com.zgl.util.secure.util;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.PublicKey;
-import java.security.Security;
-import java.security.Signature;
-import java.security.SignatureException;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
-import java.security.cert.X509Certificate;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import com.zgl.util.IOUtil;
 import com.zgl.util.NumberUtil;
 import com.zgl.util.secure.enums.EnumCertificateType;
 import com.zgl.util.secure.enums.EnumKeyStoreType;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.security.*;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+
 /**
  * 证书工具
  * @author ZGL
@@ -40,7 +36,7 @@ public class CertificateUtil {
 	 * @throws FileNotFoundException
 	 * @throws CertificateException
 	 */
-	public CertificateUtil(EnumCertificateType certificateType,String certficatePath) throws FileNotFoundException, CertificateException{
+	public CertificateUtil(EnumCertificateType certificateType, String certficatePath) throws FileNotFoundException, CertificateException{
 		this.certificate = getCertificateByPath(certificateType,certficatePath);
 	}
 	
@@ -51,8 +47,6 @@ public class CertificateUtil {
 	
 	/**
 	 * 证书所含公钥加密
-	 * @param certficateType 证书类型
-	 * @param certficatePath 证书路径
 	 * @param byteData 待加密数据
 	 * @return
 	 * @throws BadPaddingException 
@@ -65,14 +59,12 @@ public class CertificateUtil {
 	public  byte[] encrptyByPublicKey(byte[] byteData) 
 			throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException{
 		PublicKey publicKey = this.certificate.getPublicKey();
-		return CipherUtil.encrpty(null, publicKey, byteData);
+		return CipherUtil.encrypt(null, publicKey, byteData);
 	}
 	
 	
 	/**
 	 * 证书所含公钥解密
-	 * @param certficateType 证书类型
-	 * @param certficatePath 证书路径
 	 * @param byteData 待解密数据
 	 * @return
 	 * @throws BadPaddingException 
@@ -90,8 +82,6 @@ public class CertificateUtil {
 	
 	/**
 	 * 证书所含公钥校验签名
-	 * @param certficateType 证书类型
-	 * @param certficatePath 证书路径
 	 * @param byteData 源数据
 	 * @param byteSign 签名
 	 * @throws NoSuchAlgorithmException 

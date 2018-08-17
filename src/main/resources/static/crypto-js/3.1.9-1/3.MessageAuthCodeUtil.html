@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>消息认证码</title>
+    <script src="crypto-js.js"></script>
+</head>
+<body>
+打开Console看吧！
+<script type="text/javascript">
+    console.log("“消息摘要”的HmacMD5：" + CryptoJS.HmacMD5("消息摘要", "HmacMD5").toString());
+    console.log("“消息摘要”的HmacSHA256：" + CryptoJS.HmacSHA256("消息摘要", "HmacSHA256").toString());
+</script>
+</body>
+</html>

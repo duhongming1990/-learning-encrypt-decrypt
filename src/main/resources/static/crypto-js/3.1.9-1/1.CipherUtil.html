@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>加密与解密</title>
+    <script src="crypto-js.js"></script>
+</head>
+<body>
+    打开Console看吧！
+    <script type="text/javascript">
+        // DES-Encrypt
+        var des_ciphertext = encryptByDES('我有一个消息', 'des@enc@');
+        console.log("DES加密内容："+des_ciphertext);//06tpmY+9V9mPI6AaHXO+IgeLDlDkWUbN
+        // DES-Decrypt
+        var des_plaintext  = decryptByDES(des_ciphertext.toString(), 'des@enc@');
+        console.log("DES解密内容："+des_plaintext);//我有一个消息
+
+        // DESede-Encrypt
+        var desede_ciphertext = encryptByDESede('我有一个消息', '@desede@encrypt@');
+        console.log("DESede加密内容："+desede_ciphertext);//iYLomPjfeaoRdolL3kVdVM8I0zZuZyHk
+        // DESede-Decrypt
+        var desede_plaintext  = decryptByDESede(desede_ciphertext.toString(), '@desede@encrypt@');
+        console.log("DESede解密内容："+desede_plaintext);//我有一个消息
+
+        // AES-Encrypt
+        var aes_ciphertext = encryptByAES('我有一个消息'
+            , 'aes@encrypt@key@');
+        console.log("AES加密内容："+aes_ciphertext);//SFNUNGMqvMrMdP9+00Iov6BiefbHpN3e0KTMWo/nHtI=
+        // AES-Decrypt
+        var aes_plaintext  = decryptByAES("SFNUNGMqvMrMdP9+00Iov6BiefbHpN3e0KTMWo/nHtI="
+            , 'aes@encrypt@key@');
+        console.log("AES解密内容："+aes_plaintext);//我有一个消息
+
+
+        /**
+         * DES加密
+         * @param message
+         * @param key
+         * @returns {string}
+         */
+        function encryptByDES(message, key) {
+            var keyHex = CryptoJS.enc.Utf8.parse(key);
+            var encrypted = CryptoJS.DES.encrypt(message, keyHex, {
+                mode: CryptoJS.mode.ECB,
+                padding: CryptoJS.pad.Pkcs7
+            });
+            return encrypted.toString();
+        }
+
+        /**
+         * DES解密
+         * @param message
+         * @param key
+         * @returns {string}
+         */
+        function decryptByDES(message, key) {
+            var keyHex = CryptoJS.enc.Utf8.parse(key);
+            var decrypted = CryptoJS.DES.decrypt(message, keyHex, {
+                mode: CryptoJS.mode.ECB,
+                padding: CryptoJS.pad.Pkcs7
+            });
+            return decrypted.toString(CryptoJS.enc.Utf8);
+        }
+
+        /**
+         * DESede加密
+         * @param message
+         * @param key
+         * @returns {string}
+         */
+        function encryptByDESede(message, key) {
+            var keyHex = CryptoJS.enc.Utf8.parse(key);
+            var encrypted = CryptoJS.TripleDES.encrypt(message, keyHex, {
+                mode: CryptoJS.mode.ECB,
+                padding: CryptoJS.pad.Pkcs7
+            });
+            return encrypted.toString();
+        }
+
+        /**
+         * DESede解密
+         * @param message
+         * @param key
+         * @returns {string}
+         */
+        function decryptByDESede(message, key) {
+            var keyHex = CryptoJS.enc.Utf8.parse(key);
+            var decrypted = CryptoJS.TripleDES.decrypt(message, keyHex, {
+                mode: CryptoJS.mode.ECB,
+                padding: CryptoJS.pad.Pkcs7
+            });
+            return decrypted.toString(CryptoJS.enc.Utf8);
+        }
+
+        /**
+         * AES加密
+         * @param message
+         * @param key
+         * @returns {string}
+         */
+        function encryptByAES(message, key) {
+            var keyHex = CryptoJS.enc.Utf8.parse(key);
+            var encrypted = CryptoJS.AES.encrypt(message, keyHex, {
+                mode: CryptoJS.mode.ECB,
+                padding: CryptoJS.pad.Pkcs7
+            });
+            return encrypted.toString();
+        }
+
+        /**
+         * AES解密
+         * @param message
+         * @param key
+         * @returns {string}
+         */
+        function decryptByAES(message, key) {
+            var keyHex = CryptoJS.enc.Utf8.parse(key);
+            var decrypted = CryptoJS.AES.decrypt(message, keyHex, {
+                mode: CryptoJS.mode.ECB,
+                padding: CryptoJS.pad.Pkcs7
+            });
+            return decrypted.toString(CryptoJS.enc.Utf8);
+        }
+    </script>
+</body>
+</html>

@@ -1,21 +1,13 @@
 package com.zgl.util.secure.util;
 
-import java.security.KeyFactory;
-import java.security.KeyPair;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.Security;
-import java.security.Signature;
+import com.zgl.util.NumberUtil;
+import com.zgl.util.secure.enums.EnumSignatureAlgorithm;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
+import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
-
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-
-
-import com.zgl.util.NumberUtil;
-import com.zgl.util.secure.enums.EnumSignatureAlgorithm;
 
 /**
  * 数字证书工具类
@@ -31,7 +23,7 @@ public class DigitalSignatureUtil {
 	 * @return
 	 * @throws Exception
 	 */
-	public static byte[] sign(EnumSignatureAlgorithm signatureAlgorithm,String strHexPrivateKey,byte[] byteData) throws Exception{
+	public static byte[] sign(EnumSignatureAlgorithm signatureAlgorithm, String strHexPrivateKey, byte[] byteData) throws Exception{
 		return sign(signatureAlgorithm, NumberUtil.strHexToBytes(strHexPrivateKey), byteData);
 	}
 	

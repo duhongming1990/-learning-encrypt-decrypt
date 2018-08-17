@@ -1,37 +1,36 @@
 package com.zgl.util.secure.util;
 
+import com.zgl.util.secure.enums.EnumAuthCodeAlgorithm;
+import com.zgl.util.secure.enums.EnumKeyAlgorithm;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.DHParameterSpec;
 import java.math.BigInteger;
-import java.security.AlgorithmParameterGenerator;
-import java.security.AlgorithmParameters;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.Security;
+import java.security.*;
 import java.security.spec.ECFieldFp;
 import java.security.spec.ECParameterSpec;
 import java.security.spec.ECPoint;
 import java.security.spec.EllipticCurve;
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.DHParameterSpec;
-
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-
-import com.zgl.util.secure.enums.EnumKeyAlgorithm;
-
 
 
 public class KeyUtil {
-	public static SecretKey generateKey(EnumKeyAlgorithm keyAlgorithm,Integer keySize) throws NoSuchAlgorithmException{
+
+	public static SecretKey generateKey(EnumAuthCodeAlgorithm authCodeAlgorithm) throws NoSuchAlgorithmException {
+		KeyGenerator keyGen = KeyGenerator.getInstance(authCodeAlgorithm.name());
+		return keyGen.generateKey();
+	}
+
+	public static SecretKey generateKey(EnumKeyAlgorithm keyAlgorithm, Integer keySize) throws NoSuchAlgorithmException{
 		Security.addProvider(new BouncyCastleProvider());
 		KeyGenerator keyGen = KeyGenerator.getInstance(keyAlgorithm.name());
 		switch (keyAlgorithm) {
 			case DES:
-				keyGen.init(keySize == null ? 56 :keySize); 
+				keyGen.init(keySize == null ? 56 :keySize);
 				break;
 			case DESede:
-				keyGen.init(keySize == null ? 168 :keySize); 
+				keyGen.init(keySize == null ? 168 :keySize);
 				break;
 			case AES:
 			case IDEA:
@@ -86,5 +85,4 @@ public class KeyUtil {
 		}
 	
 	}
-
 }
