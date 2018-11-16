@@ -2,7 +2,9 @@ package com.zgl.util.secure.util;
 
 import com.zgl.util.EncodingUtil;
 import org.bouncycastle.util.encoders.Base64;
+import sun.misc.BASE64Decoder;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 public class Base64Util {
@@ -71,7 +73,13 @@ public class Base64Util {
 		String e = encode(dataString, "utf-8");
 		System.out.println("Base64编码后数据：" + e);
 		System.out.println("Base64解码后数据：" + decode(e, "utf-8"));
+
+//		String base64Result = "MDEyMzQ1Njc4Oe+8jDAxMjM0NTY3ODnvvIwwMTIzNDU2Nzg577yMMDEyMzQ1Njc4Oe+8jDAxMjM0" +
+//				"NTY3ODnvvIwwMTIzNDU2Nzg577yMMDEyMzQ1Njc4OQ==";
+//		byte[] ss = java.util.Base64.getDecoder().decode(base64Result);
+//		System.out.println("ss = " + new String(ss));
+//		String s = new String(new BASE64Decoder().decodeBuffer(base64Result));
+//		System.out.println("s = " + s);
 	}
-	
 
 }
