@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.zgl.util</groupId>
-	<artifactId>secure-util</artifactId>
+	<artifactId>learning-encrypt-decrypt</artifactId>
 	<version>1.6</version>
 	<packaging>jar</packaging>
 
-	<name>secure-util</name>
+	<name>learning-encrypt-decrypt</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
