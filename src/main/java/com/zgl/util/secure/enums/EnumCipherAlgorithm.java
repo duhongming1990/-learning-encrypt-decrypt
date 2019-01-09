@@ -16,13 +16,15 @@ public enum EnumCipherAlgorithm {
 	 *
 	 * 模式：
 	 * ECB---Electronic Codebook block mode(项目中常用)
+	 * CBC---Cipher Block Chaining mode(JS中默认模式).
 	 * OFB---Output Feedback block mode
 	 * CTRGladman---Counter block mode compatible with  Dr Brian Gladman fileenc.c
 	 * CTR---Counter block mode
 	 * CFB---Cipher Feedback block mode
+
 	 *
 	 * 补码方式：
-	 * Pkcs7---PKCS #5/7 padding strategy(项目中常用)
+	 * Pkcs7---PKCS #5/7 padding strategy(项目中常用，JS中默认补码方式)
 	 * AnsiX923---ANSI X.923 padding strategy
 	 * Iso10126---ISO 10126 padding strategy
 	 * Iso97971---ISO/IEC 9797-1 Padding Method 2
