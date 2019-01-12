@@ -3,6 +3,7 @@ package com.zgl.util.secure.util;
 import com.zgl.util.NumberUtil;
 import com.zgl.util.secure.enums.EnumDigestAlgorithm;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.Validate;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
@@ -10,7 +11,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.Security;
 
 
 /**
@@ -25,7 +29,9 @@ public class MessageDigestUtil {
 
 	public static byte[] encode(EnumDigestAlgorithm digestAlgorithm, byte[] byteData) throws NoSuchAlgorithmException{
 		Security.addProvider(new BouncyCastleProvider());
-		return MessageDigest.getInstance(digestAlgorithm.name()).digest(byteData);
+		MessageDigest messageDigest = MessageDigest.getInstance(digestAlgorithm.name());
+		log.debug("security provider:{}",messageDigest.getProvider());
+		return messageDigest.digest(byteData);
 	}
 
 	public static byte[] encodeWithSalt(EnumDigestAlgorithm digestAlgorithm, byte[] byteData, byte[] salt) throws NoSuchAlgorithmException{
@@ -75,12 +81,17 @@ public class MessageDigestUtil {
 		 */
 		for (EnumDigestAlgorithm digestAlgorithm : EnumDigestAlgorithm.values()) {
 			byte[] md = encode(digestAlgorithm, dataString.getBytes());
+//			Hex.encodeHexString(md);
 			log.info("{},文本摘要信息: {}", digestAlgorithm.getValue(), NumberUtil.bytesToStrHex(md));
 		}
 
 
 		log.info("前后台通用MD5摘要信息: {}",NumberUtil.bytesToStrHex(encode(EnumDigestAlgorithm.MD5, "消息摘要".getBytes())));
 		log.info("前后台通用SHA256摘要信息: {}",NumberUtil.bytesToStrHex(encode(EnumDigestAlgorithm.SHA256, "消息摘要".getBytes())));
+
+		//CC实现
+		DigestUtils.md5Hex("");
+		DigestUtils.sha256Hex("");
 
 		byte[] bytes = new MessageDigestUtil().inputStream2ByteArray("E:\\personal-software-auto\\Hadoop\\1.Hadoop\\hadoop-3.1.1.tar.gz");
 		//文件指纹，参见文件hadoop-3.1.1.tar.gz.mds.txt

@@ -18,8 +18,9 @@ import java.security.spec.EllipticCurve;
 @Slf4j
 public class KeyUtil {
 
-	public static SecretKey generateKey(EnumAuthCodeAlgorithm authCodeAlgorithm) throws NoSuchAlgorithmException {
-		KeyGenerator keyGen = KeyGenerator.getInstance(authCodeAlgorithm.name());
+	public static SecretKey generateKey(EnumAuthCodeAlgorithm authCodeAlgorithm) throws NoSuchAlgorithmException, NoSuchProviderException {
+		Security.addProvider(new BouncyCastleProvider());
+		KeyGenerator keyGen = KeyGenerator.getInstance(authCodeAlgorithm.name(),"BC");
 		return keyGen.generateKey();
 	}
 
