@@ -43,3 +43,10 @@ https://github.com/travist/jsencrypt
 
 后台加密算法demo（ALL）：
 https://gitee.com/FlyTank/secure-util
+
+Java安全组成:
+
+    JCA(Java Cryptography Architecture)
+    JCE(Java Cryptography Extension)
+    JSSE(Java Secure Socket Extension)
+    JAAS(Java Authentication and Authentication Services)

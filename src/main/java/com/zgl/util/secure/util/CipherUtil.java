@@ -245,9 +245,7 @@ public class CipherUtil {
 			//现在，获取数据并加密
             byte[] e = encrypt(EnumCipherAlgorithm.DES_ECB_PKCS5Padding,keyspec.getEncoded(),plaintext.getBytes());
             //现在，获取数据并编码
-//			byte[] temp = Base64.encodeBase64(e);
-			byte[] temp = new BASE64Encoder().encode(e).getBytes();
-			return IOUtils.toString(temp,"UTF-8");
+			return Base64Util.encode2StrByJDK(e);
 		}catch(Throwable e){
 			e.printStackTrace();
 			return null;
@@ -266,9 +264,7 @@ public class CipherUtil {
 			//现在，获取数据并加密
 			byte[] e = encrypt(EnumCipherAlgorithm.DESede_ECB_PKCS5Padding,keyspec.getEncoded(),plaintext.getBytes());
 			//现在，获取数据并编码
-//			byte[] temp = Base64.encodeBase64(e);
-			byte[] temp = new BASE64Encoder().encode(e).getBytes();
-			return IOUtils.toString(temp,"UTF-8");
+			return Base64Util.encode2StrByJDK(e);
 		}catch(Throwable e){
 			e.printStackTrace();
 			return null;
@@ -287,9 +283,7 @@ public class CipherUtil {
 			//现在，获取数据并加密
 			byte[] e = encrypt(EnumCipherAlgorithm.AES_ECB_PKCS5Padding,keyspec.getEncoded(),plaintext.getBytes());
 			//现在，获取数据并编码
-//			byte[] temp = Base64.encodeBase64(e);
-			byte[] temp = new BASE64Encoder().encode(e).getBytes();
-			return IOUtils.toString(temp,"UTF-8");
+			return Base64Util.encode2StrByJDK(e);
 		}catch(Throwable e){
 			e.printStackTrace();
 			return null;
@@ -307,8 +301,7 @@ public class CipherUtil {
         try {
 			SecretKeySpec keyspec = new SecretKeySpec(key.getBytes(), EnumKeyAlgorithm.DES.name());
             // 真正开始解码操作
-//            byte[] temp = Base64.decodeBase64(ciphertext);
-			byte[] temp = new BASE64Decoder().decodeBuffer(ciphertext);
+			byte[] temp = Base64Util.decode2BytesByJDK(ciphertext);
             // 真正开始解密操作
             byte[] e = decrypt(EnumCipherAlgorithm.DES_ECB_PKCS5Padding,keyspec.getEncoded(),temp);
             return IOUtils.toString(e,"UTF-8");
@@ -329,8 +322,7 @@ public class CipherUtil {
 		try {
 			SecretKeySpec keyspec = new SecretKeySpec(key.getBytes(), EnumKeyAlgorithm.DESede.name());
 			// 真正开始解码操作
-//			byte[] temp = Base64.decodeBase64(ciphertext);
-			byte[] temp = new BASE64Decoder().decodeBuffer(ciphertext);
+			byte[] temp = Base64Util.decode2BytesByJDK(ciphertext);
 			// 真正开始解密操作
 			byte[] e = decrypt(EnumCipherAlgorithm.DESede_ECB_PKCS5Padding,keyspec.getEncoded(),temp);
 			return IOUtils.toString(e,"UTF-8");
@@ -351,8 +343,7 @@ public class CipherUtil {
 		try {
 			SecretKeySpec keyspec = new SecretKeySpec(key.getBytes(), EnumKeyAlgorithm.AES.name());
 			// 真正开始解码操作
-//			byte[] temp = Base64.decodeBase64(ciphertext);
-			byte[] temp = new BASE64Decoder().decodeBuffer(ciphertext);
+			byte[] temp = Base64Util.decode2BytesByJDK(ciphertext);
 			// 真正开始解密操作
 			byte[] e = decrypt(EnumCipherAlgorithm.AES_ECB_PKCS5Padding,keyspec.getEncoded(),temp);
 			return IOUtils.toString(e,"UTF-8");

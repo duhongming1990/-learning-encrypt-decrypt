@@ -18,11 +18,38 @@
 
 	<dependencies>
 
+		<!--
+			第三方Java加密扩展BC:
+			1）在/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/security/java.security配置一下：
+			security.provider.1=sun.security.provider.Sun
+			security.provider.2=sun.security.rsa.SunRsaSign
+			security.provider.3=sun.security.ec.SunEC
+			security.provider.4=com.sun.net.ssl.internal.ssl.Provider
+			security.provider.5=com.sun.crypto.provider.SunJCE
+			security.provider.6=sun.security.jgss.SunProvider
+			security.provider.7=com.sun.security.sasl.Provider
+			security.provider.8=org.jcp.xml.dsig.internal.dom.XMLDSigRI
+			security.provider.9=sun.security.smartcardio.SunPCSC
+			security.provider.10=apple.security.AppleProvider
+			2）在代码中：
+			Security.addProvider(new BouncyCastleProvider());
+		-->
 		<dependency>
 			<groupId>org.bouncycastle</groupId>
 			<artifactId>bcprov-ext-jdk16</artifactId>
 			<version>1.46</version>
 		</dependency>
+		<!--
+			第三方Java加密扩展CC:
+			Base64(由于和e车城联调发现会有冲突，于是用JDK原生的了)、二进制、十六进制、字符集编码
+			URL编码、解码
+		-->
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.10</version>
+		</dependency>
+
 
 		<!-- LOGGING begin -->
 		<!-- slf4j是规范和接口
