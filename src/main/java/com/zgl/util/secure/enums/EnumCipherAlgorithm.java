@@ -35,7 +35,9 @@ public enum EnumCipherAlgorithm {
 	IDEA_ECB_PKCS5Padding(EnumKeyAlgorithm.IDEA,"IDEA/ECB/PKCS5Padding"),
 	
 	RSA_ECB_PKCS1Padding(EnumKeyAlgorithm.RSA,"RSA/ECB/PKCS1Padding"),
-	DSA_ECB_PKCS1Padding(EnumKeyAlgorithm.DSA,"DSA/ECB/PKCS1Padding"),
+//	DSA_ECB_PKCS1Padding(EnumKeyAlgorithm.DSA,"DSA/ECB/PKCS1Padding"),
+
+	PBEWITHMD5andDES_ECB_PKCS1Padding(EnumKeyAlgorithm.PBEWITHMD5andDES,"PBEWITHMD5andDES/ECB/PKCS1Padding"),
 	//TODO ElGamal不好使
 //	ElGamal_ECB_PKCS1Padding(EnumKeyAlgorithm.ElGamal,"ElGamal/ECB/PKCS1Padding"),
 	;

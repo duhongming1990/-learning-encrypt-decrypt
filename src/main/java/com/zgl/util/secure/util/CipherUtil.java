@@ -12,6 +12,8 @@ import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
 import javax.crypto.*;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.PBEParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.*;
 import java.security.interfaces.RSAPrivateKey;
@@ -64,7 +66,7 @@ public class CipherUtil {
 	 */
 	public static byte[] encrypt(EnumCipherAlgorithm cipherAlgorithm,  byte[] byteKey, byte[] byteData)
 			throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
-		Security.addProvider(new BouncyCastleProvider());
+//		Security.addProvider(new BouncyCastleProvider());
 		// 生成秘密密钥或公钥
 		Key key = null;
 		switch (cipherAlgorithm.getKeyAlgorithm()) {
@@ -241,11 +243,22 @@ public class CipherUtil {
 	 */
 	public static String encodeDES(String key,String plaintext){
 		try{
-			SecretKeySpec keyspec = new SecretKeySpec(key.getBytes(), EnumKeyAlgorithm.DES.name());
-			//现在，获取数据并加密
-            byte[] e = encrypt(EnumCipherAlgorithm.DES_ECB_PKCS5Padding,keyspec.getEncoded(),plaintext.getBytes());
-            //现在，获取数据并编码
-			return Base64Util.encode2StrByJDK(e);
+
+			PBEKeySpec pbeKeySpec = new PBEKeySpec(key.toCharArray());
+			SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("PBEWITHMD5andDES");
+			Key secretKey = secretKeyFactory.generateSecret(pbeKeySpec);
+
+			//初始化盐
+			SecureRandom secureRandom = new SecureRandom();
+			byte[] salt = secureRandom.generateSeed(8);
+			PBEParameterSpec pbeParameterSpec = new PBEParameterSpec("salt1234".getBytes(),100);
+			Cipher cipher = Cipher.getInstance("PBEWITHMD5andDES");
+			cipher.init(Cipher.ENCRYPT_MODE,secretKey,pbeParameterSpec);
+//			cipher.init(Cipher.ENCRYPT_MODE,secretKey);
+
+			byte[] result = cipher.doFinal(plaintext.getBytes());
+
+			return Base64Util.encode2StrByJDK(result);
 		}catch(Throwable e){
 			e.printStackTrace();
 			return null;
@@ -298,13 +311,25 @@ public class CipherUtil {
 	 * @throws Exception
 	 */
 	public static String decodeDES(String key,String ciphertext) {
+
         try {
-			SecretKeySpec keyspec = new SecretKeySpec(key.getBytes(), EnumKeyAlgorithm.DES.name());
+			PBEKeySpec pbeKeySpec = new PBEKeySpec(key.toCharArray());
+			SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("PBEWITHMD5andDES");
+			Key secretKey = secretKeyFactory.generateSecret(pbeKeySpec);
+
+			//初始化盐
+			SecureRandom secureRandom = new SecureRandom();
+			byte[] salt = secureRandom.generateSeed(8);
+			PBEParameterSpec pbeParameterSpec = new PBEParameterSpec("salt1234".getBytes(),100);
+			Cipher cipher = Cipher.getInstance("PBEWITHMD5andDES");
+			cipher.init(Cipher.DECRYPT_MODE,secretKey,pbeParameterSpec);
+//			cipher.init(Cipher.DECRYPT_MODE,secretKey);
+
             // 真正开始解码操作
 			byte[] temp = Base64Util.decode2BytesByJDK(ciphertext);
             // 真正开始解密操作
-            byte[] e = decrypt(EnumCipherAlgorithm.DES_ECB_PKCS5Padding,keyspec.getEncoded(),temp);
-            return IOUtils.toString(e,"UTF-8");
+			byte[] result = cipher.doFinal(temp);
+            return IOUtils.toString(result,"UTF-8");
         }catch(Throwable e){
             e.printStackTrace();
             return null;
@@ -472,58 +497,59 @@ public class CipherUtil {
 
 	public static void main(String[] args) throws Exception {
 
-		try {
-			String dataString = "ZGL";
-			for (EnumCipherAlgorithm cipherAlgorithm : EnumCipherAlgorithm.values()) {
-				log.info(cipherAlgorithm.getValue());
-				if(EnumKeyAlgorithm.getSymmetric().contains(cipherAlgorithm.getKeyAlgorithm())){
-					/**
-					 * 对称密码（共享密钥密码）- 用相同的密钥进行加密和解密
-					 * DES（data encryption standard）- 淘汰
-					 * 3DES（triple DES）- 目前被银行机构使用
-					 * AES（advanced encryption standard）- 方向
-					 * IDEA用于邮件加密，避开美国法律限制 – 国产
-					 */
-					SecretKey secretKey = KeyUtil.generateKey(cipherAlgorithm.getKeyAlgorithm(), null);
-					log.info("对称加密的密钥： {}", NumberUtil.bytesToStrHex(secretKey.getEncoded()));
-					byte[] e = encrypt(cipherAlgorithm,NumberUtil.bytesToStrHex(secretKey.getEncoded()), dataString.getBytes());
-					log.info("对称加密后数据： {}", NumberUtil.bytesToStrHex(e));
-					byte[] d = decrypt(cipherAlgorithm, secretKey.getEncoded(), e);
-					log.info("对称解密后数据： {}", new String(d));
-				}else{
-					/**
-					 * 公钥密码(非对称密码) - 用公钥加密，用私钥解密
-					 * RSA
-					 */
-					KeyPair keyPair = KeyUtil.generateKeyPair(cipherAlgorithm.getKeyAlgorithm(), null);
-					log.info("非对称加密的公钥： {}\n非对称加密的私钥： {}", NumberUtil.bytesToStrHex(keyPair.getPublic().getEncoded()), NumberUtil.bytesToStrHex(keyPair.getPrivate().getEncoded()));
-					byte[] e = encrypt(cipherAlgorithm, keyPair.getPublic().getEncoded(),dataString.getBytes());
-					log.info("非对称加密后数据： {}", NumberUtil.bytesToStrHex(e));
-					byte[] d = decrypt(cipherAlgorithm, keyPair.getPrivate().getEncoded(), e);
-					log.info("非对称解密后数据： {}", new String(d));
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		try {
+//			String dataString = "ZGL";
+//			for (EnumCipherAlgorithm cipherAlgorithm : EnumCipherAlgorithm.values()) {
+//				log.info(cipherAlgorithm.getValue());
+//				if(EnumKeyAlgorithm.getSymmetric().contains(cipherAlgorithm.getKeyAlgorithm())){
+//					/**
+//					 * 对称密码（共享密钥密码）- 用相同的密钥进行加密和解密
+//					 * DES（data encryption standard）- 淘汰
+//					 * 3DES（triple DES）- 目前被银行机构使用
+//					 * AES（advanced encryption standard）- 方向
+//					 * IDEA用于邮件加密，避开美国法律限制 – 国产
+//					 */
+//					SecretKey secretKey = KeyUtil.generateKey(cipherAlgorithm.getKeyAlgorithm(), null);
+//					log.info("对称加密的密钥： {}", NumberUtil.bytesToStrHex(secretKey.getEncoded()));
+//					byte[] e = encrypt(cipherAlgorithm,NumberUtil.bytesToStrHex(secretKey.getEncoded()), dataString.getBytes());
+//					log.info("对称加密后数据： {}", NumberUtil.bytesToStrHex(e));
+//					byte[] d = decrypt(cipherAlgorithm, secretKey.getEncoded(), e);
+//					log.info("对称解密后数据： {}", new String(d));
+//				}else{
+//					/**
+//					 * 公钥密码(非对称密码) - 用公钥加密，用私钥解密
+//					 * RSA
+//					 */
+//					KeyPair keyPair = KeyUtil.generateKeyPair(cipherAlgorithm.getKeyAlgorithm(), null);
+//					log.info("非对称加密的公钥： {}\n非对称加密的私钥： {}", NumberUtil.bytesToStrHex(keyPair.getPublic().getEncoded()), NumberUtil.bytesToStrHex(keyPair.getPrivate().getEncoded()));
+//					byte[] e = encrypt(cipherAlgorithm, keyPair.getPublic().getEncoded(),dataString.getBytes());
+//					log.info("非对称加密后数据： {}", NumberUtil.bytesToStrHex(e));
+//					byte[] d = decrypt(cipherAlgorithm, keyPair.getPrivate().getEncoded(), e);
+//					log.info("非对称解密后数据： {}", new String(d));
+//				}
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 
 		//DES的key长度为8位的字符串，否则会报错
-		log.info("前后台通用DES对称加密：{}",encodeDES("des@enc@","我有一个消息"));
-		log.info("前后台通用DES对称解密：{}",decodeDES("des@enc@","06tpmY+9V9mPI6AaHXO+IgeLDlDkWUbN"));
+		String encodeDESStr = encodeDES("des@enc@1","我有一个消息");
+		log.info("前后台通用DES对称加密：{}",encodeDESStr);
+		log.info("前后台通用DES对称解密：{}",decodeDES("des@enc@1",encodeDESStr));
 
-		//DESede的key长度为16位的字符串，否则会报错
-		log.info("前后台通用DESede对称加密：{}",encodeDESede("@desede@encrypt@","我有一个消息"));
-		log.info("前后台通用DESede对称解密：{}",decodeDESede("@desede@encrypt@","iYLomPjfeaoRdolL3kVdVM8I0zZuZyHk"));
-
-		//AES的key长度为16位的字符串，否则会报错
-		log.info("前后台通用AES对称加密：{}",encodeAES("aes@encrypt@key@","我有一个消息"));
-		log.info("前后台通用AES对称解密：{}",decodeAES("aes@encrypt@key@","SFNUNGMqvMrMdP9+00Iov6BiefbHpN3e0KTMWo/nHtI="));
-
-		//RSA每次加密后的数据都不一样
-		String e = encryptRSA("我有一个消息");
-		log.info("前后台通用RSA非对称加密： {}", e);
-		String d = decryptRSA(e);
-		log.info("前后台通用RSA非对称解密： {}", d);
+//		//DESede的key长度为16位的字符串，否则会报错
+//		log.info("前后台通用DESede对称加密：{}",encodeDESede("@desede@encrypt@","我有一个消息"));
+//		log.info("前后台通用DESede对称解密：{}",decodeDESede("@desede@encrypt@","iYLomPjfeaoRdolL3kVdVM8I0zZuZyHk"));
+//
+//		//AES的key长度为16位的字符串，否则会报错
+//		log.info("前后台通用AES对称加密：{}",encodeAES("aes@encrypt@key@","我有一个消息"));
+//		log.info("前后台通用AES对称解密：{}",decodeAES("aes@encrypt@key@","SFNUNGMqvMrMdP9+00Iov6BiefbHpN3e0KTMWo/nHtI="));
+//
+//		//RSA每次加密后的数据都不一样
+//		String e = encryptRSA("我有一个消息");
+//		log.info("前后台通用RSA非对称加密： {}", e);
+//		String d = decryptRSA(e);
+//		log.info("前后台通用RSA非对称解密： {}", d);
 	}
 
 
