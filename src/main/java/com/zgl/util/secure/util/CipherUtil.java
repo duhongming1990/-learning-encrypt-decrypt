@@ -66,7 +66,7 @@ public class CipherUtil {
 	 */
 	public static byte[] encrypt(EnumCipherAlgorithm cipherAlgorithm,  byte[] byteKey, byte[] byteData)
 			throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
-//		Security.addProvider(new BouncyCastleProvider());
+		Security.addProvider(new BouncyCastleProvider());
 		// 生成秘密密钥或公钥
 		Key key = null;
 		switch (cipherAlgorithm.getKeyAlgorithm()) {
@@ -497,45 +497,52 @@ public class CipherUtil {
 
 	public static void main(String[] args) throws Exception {
 
-//		try {
-//			String dataString = "ZGL";
-//			for (EnumCipherAlgorithm cipherAlgorithm : EnumCipherAlgorithm.values()) {
-//				log.info(cipherAlgorithm.getValue());
-//				if(EnumKeyAlgorithm.getSymmetric().contains(cipherAlgorithm.getKeyAlgorithm())){
-//					/**
-//					 * 对称密码（共享密钥密码）- 用相同的密钥进行加密和解密
-//					 * DES（data encryption standard）- 淘汰
-//					 * 3DES（triple DES）- 目前被银行机构使用
-//					 * AES（advanced encryption standard）- 方向
-//					 * IDEA用于邮件加密，避开美国法律限制 – 国产
-//					 */
+		try {
+			String dataString = "ZGL";
+			for (EnumCipherAlgorithm cipherAlgorithm : EnumCipherAlgorithm.values()) {
+				log.info(cipherAlgorithm.getValue());
+				if(EnumKeyAlgorithm.getSymmetric().contains(cipherAlgorithm.getKeyAlgorithm())){
+					/**
+					 * 对称密码（共享密钥密码）- 用相同的密钥进行加密和解密
+					 * DES（data encryption standard）- 淘汰
+					 * 3DES（triple DES）- 目前被银行机构使用
+					 * AES（advanced encryption standard）- 方向
+					 * IDEA用于邮件加密，避开美国法律限制 – 国产
+					 */
 //					SecretKey secretKey = KeyUtil.generateKey(cipherAlgorithm.getKeyAlgorithm(), null);
 //					log.info("对称加密的密钥： {}", NumberUtil.bytesToStrHex(secretKey.getEncoded()));
 //					byte[] e = encrypt(cipherAlgorithm,NumberUtil.bytesToStrHex(secretKey.getEncoded()), dataString.getBytes());
 //					log.info("对称加密后数据： {}", NumberUtil.bytesToStrHex(e));
 //					byte[] d = decrypt(cipherAlgorithm, secretKey.getEncoded(), e);
 //					log.info("对称解密后数据： {}", new String(d));
-//				}else{
-//					/**
-//					 * 公钥密码(非对称密码) - 用公钥加密，用私钥解密
-//					 * RSA
-//					 */
-//					KeyPair keyPair = KeyUtil.generateKeyPair(cipherAlgorithm.getKeyAlgorithm(), null);
-//					log.info("非对称加密的公钥： {}\n非对称加密的私钥： {}", NumberUtil.bytesToStrHex(keyPair.getPublic().getEncoded()), NumberUtil.bytesToStrHex(keyPair.getPrivate().getEncoded()));
-//					byte[] e = encrypt(cipherAlgorithm, keyPair.getPublic().getEncoded(),dataString.getBytes());
-//					log.info("非对称加密后数据： {}", NumberUtil.bytesToStrHex(e));
-//					byte[] d = decrypt(cipherAlgorithm, keyPair.getPrivate().getEncoded(), e);
-//					log.info("非对称解密后数据： {}", new String(d));
-//				}
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
+				}else{
+					/**
+					 * 公钥密码(非对称密码) - 用公钥加密，用私钥解密
+					 * RSA
+					 * ElGamal
+					 */
+					KeyPair keyPair = KeyUtil.generateKeyPair(cipherAlgorithm.getKeyAlgorithm(), null);
+					log.info("非对称加密的公钥： {}\n非对称加密的私钥： {}", NumberUtil.bytesToStrHex(keyPair.getPublic().getEncoded()), NumberUtil.bytesToStrHex(keyPair.getPrivate().getEncoded()));
+
+					long encryptStart = System.currentTimeMillis();
+					byte[] e = encrypt(cipherAlgorithm, keyPair.getPublic().getEncoded(),dataString.getBytes());
+					long encryptEnd = System.currentTimeMillis();
+					log.info("用时：{}ms,非对称加密后数据： {}",(encryptEnd-encryptStart), NumberUtil.bytesToStrHex(e));
+
+					long decryptStart = System.currentTimeMillis();
+					byte[] d = decrypt(cipherAlgorithm, keyPair.getPrivate().getEncoded(), e);
+					long decryptEnd = System.currentTimeMillis();
+					log.info("用时：{}ms,非对称解密后数据： {}", (decryptEnd-decryptStart),new String(d));
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		//DES的key长度为8位的字符串，否则会报错
-		String encodeDESStr = encodeDES("des@enc@1","我有一个消息");
-		log.info("前后台通用DES对称加密：{}",encodeDESStr);
-		log.info("前后台通用DES对称解密：{}",decodeDES("des@enc@1",encodeDESStr));
+//		String encodeDESStr = encodeDES("des@enc@1","我有一个消息");
+//		log.info("前后台通用DES对称加密：{}",encodeDESStr);
+//		log.info("前后台通用DES对称解密：{}",decodeDES("des@enc@1",encodeDESStr));
 
 //		//DESede的key长度为16位的字符串，否则会报错
 //		log.info("前后台通用DESede对称加密：{}",encodeDESede("@desede@encrypt@","我有一个消息"));

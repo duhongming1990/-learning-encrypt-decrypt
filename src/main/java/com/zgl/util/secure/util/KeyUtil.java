@@ -61,7 +61,7 @@ public class KeyUtil {
 			case ElGamal:
 			{
 				AlgorithmParameterGenerator apg = AlgorithmParameterGenerator.getInstance(keyAlgorithm.name(),"BC");
-				apg.init(keySize == null ? 160 :keySize);
+				apg.init(keySize == null ? 256 :keySize);
 				AlgorithmParameters parameters = apg.generateParameters();
 				DHParameterSpec elParameterSpec = parameters.getParameterSpec(DHParameterSpec.class);
 				KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(keyAlgorithm.name(),"BC");
