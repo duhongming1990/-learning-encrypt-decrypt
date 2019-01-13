@@ -11,21 +11,25 @@ public enum EnumSignatureAlgorithm {
 	RIPEMD128withRSA(EnumKeyAlgorithm.RSA),
 	RIPEMD160withRSA(EnumKeyAlgorithm.RSA),
 	
-	
+	//JDK实现
 	SHA1withDSA(EnumKeyAlgorithm.DSA),
+	//BC实现
 	SHA224withDSA(EnumKeyAlgorithm.DSA),
+	//BC实现
 	SHA256withDSA(EnumKeyAlgorithm.DSA),
+	//BC实现
 	SHA384withDSA(EnumKeyAlgorithm.DSA),
-	//TODO SHA512withDSA不好使:first coefficient is too large
-//	SHA512withDSA(EnumKeyAlgorithm.DSA),
-//
-//	NONEwithECDSA(EnumKeyAlgorithm.ECDSA),
-//	SHA1withECDSA(EnumKeyAlgorithm.ECDSA),
-//	SHA224withECDSA(EnumKeyAlgorithm.ECDSA),
-//	SHA256withECDSA(EnumKeyAlgorithm.ECDSA),
-//	SHA384withECDSA(EnumKeyAlgorithm.ECDSA),
-//	SHA512withECDSA(EnumKeyAlgorithm.ECDSA),
-//	RIPEMD160withECDSA(EnumKeyAlgorithm.ECDSA)
+	//BC实现
+	SHA512withDSA(EnumKeyAlgorithm.DSA),
+
+
+	NONEwithECDSA(EnumKeyAlgorithm.ECDSA),
+	SHA1withECDSA(EnumKeyAlgorithm.ECDSA),
+	SHA224withECDSA(EnumKeyAlgorithm.ECDSA),
+	SHA256withECDSA(EnumKeyAlgorithm.ECDSA),
+	SHA384withECDSA(EnumKeyAlgorithm.ECDSA),
+	SHA512withECDSA(EnumKeyAlgorithm.ECDSA),
+	RIPEMD160withECDSA(EnumKeyAlgorithm.ECDSA)
 	;
 	
 	private EnumKeyAlgorithm keyAlgorithm;

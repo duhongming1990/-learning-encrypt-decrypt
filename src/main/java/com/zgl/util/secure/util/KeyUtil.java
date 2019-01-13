@@ -8,12 +8,7 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.DHParameterSpec;
-import java.math.BigInteger;
 import java.security.*;
-import java.security.spec.ECFieldFp;
-import java.security.spec.ECParameterSpec;
-import java.security.spec.ECPoint;
-import java.security.spec.EllipticCurve;
 
 @Slf4j
 public class KeyUtil {
@@ -72,19 +67,20 @@ public class KeyUtil {
 			}
 			case ECDSA:	
 			{
-				BigInteger p = new BigInteger("883432555555365666666666666666666666666666666666666666666666666662");
-				ECFieldFp ecFieldFp = new ECFieldFp(p);
-				BigInteger a = new BigInteger("7ffffffffffffffffffffffffffffff7ffffffffffffffff80000000007fffffffc", 16);
-				BigInteger b = new BigInteger("7fffffffff2352362466577fffffff7657567f80000087976976934537fff233453",16);
-				EllipticCurve ellipticCurve = new EllipticCurve(ecFieldFp, a, b);
-				BigInteger x = new BigInteger("110243253258329580234023842384592859238592385923895823955235235");
-				BigInteger y = new BigInteger("110243253258329423905600223426-92859238592385923895823955235235");
-				ECPoint g = new ECPoint(x, y);
-				BigInteger n = new BigInteger("594908395929308592804890258920859767623578085934895200818985368340");
-				ECParameterSpec ecParameterSpec = new ECParameterSpec(ellipticCurve, g, n, 1);
+//				BigInteger p = new BigInteger("883432555555365666666666666666666666666666666666666666666666666662");
+//				ECFieldFp ecFieldFp = new ECFieldFp(p);
+//				BigInteger a = new BigInteger("7ffffffffffffffffffffffffffffff7ffffffffffffffff80000000007fffffffc", 16);
+//				BigInteger b = new BigInteger("7fffffffff2352362466577fffffff7657567f80000087976976934537fff233453",16);
+//				EllipticCurve ellipticCurve = new EllipticCurve(ecFieldFp, a, b);
+//				BigInteger x = new BigInteger("110243253258329580234023842384592859238592385923895823955235235");
+//				BigInteger y = new BigInteger("110243253258329423905600223426-92859238592385923895823955235235");
+//				ECPoint g = new ECPoint(x, y);
+//				BigInteger n = new BigInteger("594908395929308592804890258920859767623578085934895200818985368340");
+//				ECParameterSpec ecParameterSpec = new ECParameterSpec(ellipticCurve, g, n, 1);
 				KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(keyAlgorithm.name(),"BC");
 				log.debug("security provider:{}",keyPairGenerator.getProvider());
-				keyPairGenerator.initialize(ecParameterSpec,new SecureRandom());
+//				keyPairGenerator.initialize(ecParameterSpec,new SecureRandom());
+				keyPairGenerator.initialize(keySize == null ? 256 :keySize);
 				return keyPairGenerator.generateKeyPair();
 			}
 			default:
