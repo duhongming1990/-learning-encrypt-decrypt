@@ -3,12 +3,15 @@ package com.zgl.util.secure.util;
 import com.zgl.util.NumberUtil;
 import com.zgl.util.secure.enums.EnumAuthCodeAlgorithm;
 import lombok.extern.slf4j.Slf4j;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.Security;
 
 /**
  * @Author duhongming
@@ -18,14 +21,16 @@ import java.security.NoSuchAlgorithmException;
 @Slf4j
 public class MessageAuthCodeUtil {
 
-    public static byte[] encode(EnumAuthCodeAlgorithm authCodeAlgorithm, byte[] byteData, byte[] keyData) throws NoSuchAlgorithmException, InvalidKeyException {
+    public static byte[] encode(EnumAuthCodeAlgorithm authCodeAlgorithm, byte[] byteData, byte[] keyData) throws NoSuchAlgorithmException, InvalidKeyException, NoSuchProviderException {
+        Security.addProvider(new BouncyCastleProvider());
         Mac mac = Mac.getInstance(authCodeAlgorithm.name());
         SecretKey secretKey = new SecretKeySpec(keyData, authCodeAlgorithm.name());
         mac.init(secretKey);
+        log.debug("security provider:{}",mac.getProvider());
         return mac.doFinal(byteData);
     }
 
-    public static void main(String[] args) throws InvalidKeyException, NoSuchAlgorithmException {
+    public static void main(String[] args) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchProviderException {
 
         String dataString = "ZGL";
 

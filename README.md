@@ -27,11 +27,20 @@ Java几乎各种常用加密算法都能找到对应的实现。因为美国的�
 
 Oracle在其官方网站上提供了无政策限制权限文件（Unlimited Strength Jurisdiction Policy Files），我们只需要将其部署在JRE环境中，就可以解决限制问题。
 
+下载后解压，可以看到local_policy.jar和US_export_policy.jar以及readme.txt
+
+如果安装了JRE，将两个jar文件放到%JRE_HOME%\lib\security目录下覆盖原来的文件
+
+如果安装了JDK，将两个jar文件放到%JDK_HOME%\jre\lib\security目录下覆盖原来文件
+
 Java 6 无政策限制文件：
 http://www.oracle.com/technetwork/java/javase/downloads/jce-6-download-429243.html
 
 Java 7 无政策限制文件：
 http://www.oracle.com/technetwork/java/javase/downloads/jce-7-download-432124.html
+
+Java 8 无政策限制文件: 
+http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html 
 
 ## 参考
 
@@ -43,3 +52,10 @@ https://github.com/travist/jsencrypt
 
 后台加密算法demo（ALL）：
 https://gitee.com/FlyTank/secure-util
+
+Java安全组成:
+
+    JCA(Java Cryptography Architecture)
+    JCE(Java Cryptography Extension)
+    JSSE(Java Secure Socket Extension)
+    JAAS(Java Authentication and Authentication Services)

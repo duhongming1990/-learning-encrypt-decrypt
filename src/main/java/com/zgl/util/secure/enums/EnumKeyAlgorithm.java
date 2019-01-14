@@ -12,7 +12,7 @@ public enum EnumKeyAlgorithm {
 	/**
 	 * 对称加密算法
 	 */
-	DES,DESede,AES,IDEA,
+	DES,DESede,AES,IDEA,PBEWITHMD5andDES,
 	/**
 	 * 非对称加密算法(RSA,ElGmail常用于非对称加密；RSA,DSA,ECDSA常用于数字签名；)
 	 * 说明：
