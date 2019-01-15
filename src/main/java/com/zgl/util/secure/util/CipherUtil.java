@@ -254,7 +254,6 @@ public class CipherUtil {
 			PBEParameterSpec pbeParameterSpec = new PBEParameterSpec("salt1234".getBytes(),100);
 			Cipher cipher = Cipher.getInstance("PBEWITHMD5andDES");
 			cipher.init(Cipher.ENCRYPT_MODE,secretKey,pbeParameterSpec);
-//			cipher.init(Cipher.ENCRYPT_MODE,secretKey);
 
 			byte[] result = cipher.doFinal(plaintext.getBytes());
 
@@ -271,18 +270,18 @@ public class CipherUtil {
 	 * @param plaintext
 	 * @return
 	 */
-	public static String encodeDESede(String key,String plaintext){
-		try{
-			SecretKeySpec keyspec = new SecretKeySpec(key.getBytes(), EnumKeyAlgorithm.DESede.name());
-			//现在，获取数据并加密
-			byte[] e = encrypt(EnumCipherAlgorithm.DESede_ECB_PKCS5Padding,keyspec.getEncoded(),plaintext.getBytes());
-			//现在，获取数据并编码
-			return Base64Util.encode2StrByJDK(e);
-		}catch(Throwable e){
-			e.printStackTrace();
-			return null;
-		}
-	}
+//	public static String encodeDESede(String key,String plaintext){
+//		try{
+//			SecretKeySpec keyspec = new SecretKeySpec(key.getBytes(), EnumKeyAlgorithm.DESede.name());
+//			//现在，获取数据并加密
+//			byte[] e = encrypt(EnumCipherAlgorithm.DESede_ECB_PKCS5Padding,keyspec.getEncoded(),plaintext.getBytes());
+//			//现在，获取数据并编码
+//			return Base64Util.encode2StrByJDK(e);
+//		}catch(Throwable e){
+//			e.printStackTrace();
+//			return null;
+//		}
+//	}
 
 	/**
 	 * JS、JAVA通用：AES加密
@@ -343,19 +342,19 @@ public class CipherUtil {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String decodeDESede(String key,String ciphertext) {
-		try {
-			SecretKeySpec keyspec = new SecretKeySpec(key.getBytes(), EnumKeyAlgorithm.DESede.name());
-			// 真正开始解码操作
-			byte[] temp = Base64Util.decode2BytesByJDK(ciphertext);
-			// 真正开始解密操作
-			byte[] e = decrypt(EnumCipherAlgorithm.DESede_ECB_PKCS5Padding,keyspec.getEncoded(),temp);
-			return IOUtils.toString(e,"UTF-8");
-		}catch(Throwable e){
-			e.printStackTrace();
-			return null;
-		}
-	}
+//	public static String decodeDESede(String key,String ciphertext) {
+//		try {
+//			SecretKeySpec keyspec = new SecretKeySpec(key.getBytes(), EnumKeyAlgorithm.DESede.name());
+//			// 真正开始解码操作
+//			byte[] temp = Base64Util.decode2BytesByJDK(ciphertext);
+//			// 真正开始解密操作
+//			byte[] e = decrypt(EnumCipherAlgorithm.DESede_ECB_PKCS5Padding,keyspec.getEncoded(),temp);
+//			return IOUtils.toString(e,"UTF-8");
+//		}catch(Throwable e){
+//			e.printStackTrace();
+//			return null;
+//		}
+//	}
 
 	/**
 	 * JS、JAVA通用：AES解密

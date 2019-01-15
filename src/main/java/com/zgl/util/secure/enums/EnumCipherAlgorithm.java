@@ -31,9 +31,9 @@ public enum EnumCipherAlgorithm {
 	 * NoPadding---A noop padding strategy
 	 * ZeroPadding---Zero padding strategy
 	 */
-	DES_ECB_PKCS5Padding(EnumKeyAlgorithm.DES,"DES/ECB/PKCS5Padding"),
+//	DES_ECB_PKCS5Padding(EnumKeyAlgorithm.DES,"DES/ECB/PKCS5Padding"),
 //	PBEWITHMD5andDES_ECB_PKCS1Padding(EnumKeyAlgorithm.PBEWITHMD5andDES,"PBEWITHMD5andDES/ECB/PKCS1Padding"),
-	DESede_ECB_PKCS5Padding(EnumKeyAlgorithm.DESede,"DESede/ECB/PKCS5Padding"),
+//	DESede_ECB_PKCS5Padding(EnumKeyAlgorithm.DESede,"DESede/ECB/PKCS5Padding"),
 	AES_ECB_PKCS5Padding(EnumKeyAlgorithm.AES,"AES/ECB/PKCS5Padding"),
 	IDEA_ECB_PKCS5Padding(EnumKeyAlgorithm.IDEA,"IDEA/ECB/PKCS5Padding"),
 
